@@ -1,7 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 interface IUser{
-    name: string
+    handle: string,
+    name: string,
     email: string,
     password: string
 }
@@ -9,6 +10,13 @@ interface IUser{
 // El interface debe ser un espejo al Schema (Deben tener lo mismo)
 
 const userSchema = new Schema({
+    handle:{
+        type: String,
+        require: true, // Se vuelve obligatorio
+        trim: true, //elimina espacios innecesarios
+        lowercase: true,
+        unique: true
+    },
     name:{
         type: String,
         require: true, // Se vuelve obligatorio

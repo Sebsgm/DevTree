@@ -1,9 +1,22 @@
 import type {Request, Response} from 'express'
+import {validationResult} from 'express-validator'
+import slug from 'slug'
 import User from "../Models/User"
 import { hashPassword } from '../Utils/auth'
 
 // Este archivo se encarga de mandar las request y respons al server en forma de funciones, que manda las las peticiones. Para tener el codigo mucho mas organizado.
 export const createAccount = async (req: Request,res: Response) =>{
+
+    //Manejar errores
+    let errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+    }
+
+    return
+
+
 
     const {email,password} = req.body
     const userExist = await User.findOne({email})
@@ -13,10 +26,18 @@ export const createAccount = async (req: Request,res: Response) =>{
         return res.status(409).json({error: error.message})
     }
 
+    const handle = slug(req.body.handle, '')
+    const handleExist = await User.findOne({handle})
 
+    if(handleExist){
+        const error = new Error('Nombre de Usuario no disponible')
+        return res.status(409).json({error: error.message})
+    }
+    
 
     const user = new User(req.body)
     user.password = await hashPassword(password)
+    user.handle = handle
     await user.save()
     res.status(201).send('Registro Creado Correctamente') 
 }
