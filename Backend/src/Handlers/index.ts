@@ -11,7 +11,7 @@ export const createAccount = async (req: Request,res: Response) =>{
     const userExist = await User.findOne({email})
 
     if(userExist){
-        const error = new Error('El usuario ya esta registrado')
+        const error = new Error('El correo ya esta registrado')
         return res.status(409).json({error: error.message})
     }
 
