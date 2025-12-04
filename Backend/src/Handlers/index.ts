@@ -3,6 +3,7 @@ import {validationResult} from 'express-validator'
 import slug from 'slug'
 import User from "../Models/User"
 import { CheckPassword, hashPassword } from '../Utils/auth'
+import { generateJWT } from '../Utils/jwt'
 
 // Este archivo se encarga de mandar las request y respons al server en forma de funciones, que manda las las peticiones. Para tener el codigo mucho mas organizado.
 export const createAccount = async (req: Request,res: Response) =>{
@@ -52,5 +53,7 @@ export const Login = async (req: Request, res: Response) =>{
         return res.status(401).json({error: error.message})
     }
 
-    res.send('Autenticado...')
+    const token = generateJWT({id: user._id})
+
+    res.send(token)
 }
