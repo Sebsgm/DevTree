@@ -14,7 +14,7 @@ export default function NavigationTabs() {
     const location = useLocation()
     const Navigate = useNavigate()
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         Navigate(e.target.value)
     }
 
