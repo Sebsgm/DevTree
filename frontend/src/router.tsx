@@ -15,7 +15,7 @@ export default function Router() {
                     <Route path='/auth/register' element={<RegisterView />} />
                 </Route>
 
-                <Route path= '/admin' element={<AppLayout/>}>
+                <Route path= '/admin' element={<AppLayout/>}> {/**Para mayor seguridad restringir en la interfaz madre la validacion */}
                     <Route index={true} element={<LinkTreeView/>}/>
                     <Route path='profile' element={<ProfileView/>}/>
                 </Route>

@@ -1,10 +1,11 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface IUser{
+export interface IUser extends Document {
     handle: string,
     name: string,
     email: string,
     password: string
+    description: string
 }
 
 // El interface debe ser un espejo al Schema (Deben tener lo mismo)
@@ -33,8 +34,12 @@ const userSchema = new Schema({
         type: String,
         require: true, // Se vuelve obligatorio
         trim: true //elimina espacios innecesarios
-    }
+    },
 
+    description:{
+        type: String,
+        default: ''
+    }
     
 })
 
