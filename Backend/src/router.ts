@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import {body} from 'express-validator'
-import { createAccount, getUser, Login, updateProfile } from './Handlers'
+import { createAccount, getUser, Login, updateProfile, uploadImage } from './Handlers'
 import { handleInputErrors } from './Middleware/validation'
 import { authenticate } from './Middleware/auth'
 const router = Router()
@@ -15,15 +15,15 @@ router.post('/auth/register',
     handleInputErrors,
     createAccount)
 
-
 router.post('/auth/login',
     body('email').isEmail().withMessage("Email no valido"),
     body('password').notEmpty().withMessage("El password es obligatorio"),
     handleInputErrors,
     Login
 )
-
 router.get('/user', authenticate, getUser)
+
+
 router.patch('/user',
     body('handle').notEmpty().withMessage("El handle no puede ir vacio"),
     body('description').notEmpty().withMessage("La descripcion no puede ir vacia"),
@@ -31,4 +31,5 @@ router.patch('/user',
     authenticate, 
     updateProfile)
 
+router.post('/user/image',authenticate, uploadImage)
 export default router

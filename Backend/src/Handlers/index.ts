@@ -1,9 +1,11 @@
 import type {Request, Response} from 'express'
 import {validationResult} from 'express-validator'
 import slug from 'slug'
+import formidable from 'formidable'
 import User from "../Models/User"
 import { CheckPassword, hashPassword } from '../Utils/auth'
 import { generateJWT } from '../Utils/jwt'
+import cloudinary from '../Config/cloudinary'
 
 // Este archivo se encarga de mandar las request y respons al server en forma de funciones, que manda las las peticiones. Para tener el codigo mucho mas organizado.
 export const createAccount = async (req: Request,res: Response) =>{
@@ -82,6 +84,20 @@ export const updateProfile = async (req: Request, res: Response) =>{
         res.send('Perfil Actualizado Correctamente')
 
 
+    } catch (e) {
+        const error = new Error('Hubo un error')
+        return res.status(500).json({error: error.message})
+    }
+}
+
+export const uploadImage = async (req: Request, res: Response) =>{
+    const form = formidable({multiples: false})
+    form.parse (req, (error, fields, files) =>{
+        console.log(files)
+    })
+
+    try {
+        
     } catch (e) {
         const error = new Error('Hubo un error')
         return res.status(500).json({error: error.message})
