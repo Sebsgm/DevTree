@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import {body} from 'express-validator'
-import { createAccount, getUser, Login, updateProfile, uploadImage } from './Handlers'
+import { createAccount, getUser, getUserByHandle, Login, updateProfile, uploadImage } from './Handlers'
 import { handleInputErrors } from './Middleware/validation'
 import { authenticate } from './Middleware/auth'
 const router = Router()
@@ -32,4 +32,6 @@ router.patch('/user',
     updateProfile)
 
 router.post('/user/image',authenticate, uploadImage)
+
+router.get('/:handle', getUserByHandle)
 export default router

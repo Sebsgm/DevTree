@@ -5,6 +5,8 @@ import AuthLayout from './Layout/AuthLayout'
 import AppLayout from './Layout/AppLayout'
 import LinkTreeView from './views/LinkTreeView'
 import ProfileView from './views/ProfileView'
+import HandleView from './views/HandleView'
+import NotFoundView from './views/NotFoundView'
 
 export default function Router() {
     return (
@@ -18,6 +20,14 @@ export default function Router() {
                 <Route path= '/admin' element={<AppLayout/>}> {/**Para mayor seguridad restringir en la interfaz madre la validacion */}
                     <Route index={true} element={<LinkTreeView/>}/>
                     <Route path='profile' element={<ProfileView/>}/>
+                </Route>
+
+                <Route path='/:handle' element={<AuthLayout/>}>
+                    <Route element={<HandleView/>} index={true} />
+                </Route>
+
+                <Route path='/404'element={<AuthLayout/>}>
+                    <Route element={<NotFoundView/>} index={true}/>
                 </Route>
             </Routes>
         </BrowserRouter>
